@@ -84,6 +84,10 @@ repositories {
 }
 
 dependencies {
+  def core_version = "1.9.0"
+
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinVersion()}"
+
+  implementation "androidx.core:core-ktx:$core_version"
 }
