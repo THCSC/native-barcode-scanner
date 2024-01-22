@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import expo.modules.kotlin.types.Enumerable
 
 const val BARCODE_DATA_RECEIVED_EVENT_NAME = "onBarcodeDataReceived"
 const val SCANNER_STATE_CHANGED = "onScannerStateChange"
@@ -20,7 +18,6 @@ class NativeBarcodeScannerModule : Module() {
 //region lifecycle hooks
     OnCreate {
       setScannerState(Enabler.OFF)
-      scannerConfig.context = context
     }
 
     OnDestroy {
@@ -45,27 +42,31 @@ class NativeBarcodeScannerModule : Module() {
     //endregion
 
     Property("autoEnter")
-      .set<Enabler> { scannerConfig.autoEnter = it }
+      .set<Enabler> { configureScanner(ScannerConfigKey.AUTO_ENTER, it.ordinal) }
 
     Property("notificationSound")
-      .set<Enabler> { scannerConfig.notificationSound = it }
+      .set<Enabler> { configureScanner(ScannerConfigKey.NOTIFICATION_SOUND, it.ordinal) }
 
     Property("notificationVibration")
-      .set<Enabler> { scannerConfig.notificationVibration = it }
+      .set<Enabler> { configureScanner(ScannerConfigKey.NOTIFICATION_VIBRATION, it.ordinal) }
 
     Property("notificationLED")
-      .set<Enabler> { scannerConfig.notificationLED = it }
+      .set<Enabler> { configureScanner(ScannerConfigKey.NOTIFICATION_LED, it.ordinal) }
 
     Property("scanMode")
-      .set<ScanMode> { scannerConfig.scanMode = it }
+      .set<ScanMode> { configureScanner(ScannerConfigKey.SCAN_MODE, it.ordinal) }
 
     Property("encoding")
-      .set<ScanEncoding> { scannerConfig.scanEncoding = it }
+      .set<ScanEncoding> { configureScanner(ScannerConfigKey.SCAN_ENCODING, it.ordinal) }
 
     Property("scanInterval")
-      .set<Long> { scannerConfig.scanInterval = it }
+      .set<Long> { configureScanner(ScannerConfigKey.SCAN_INTERVAL, it) }
 
     Events(BARCODE_DATA_RECEIVED_EVENT_NAME, SCANNER_STATE_CHANGED)
+
+    Function("scannerAvailable") {
+      isScannerAvailable()
+    }
 
     Function("modelNumber") {
       android.os.Build.MODEL
@@ -90,18 +91,14 @@ class NativeBarcodeScannerModule : Module() {
     get() = requireNotNull(appContext.reactContext)
 
   private val dataReceiver = BarcodeDataReceiver(this@NativeBarcodeScannerModule)
-  private val scannerConfig = ScannerConfig()
 
   private fun getPreferences(): SharedPreferences {
     return context.getSharedPreferences(context.packageName + ".barcode", Context.MODE_PRIVATE)
   }
 
   private fun setScannerState(enabler: Enabler) {
-    getPreferences().edit().putString("scannerState", enabler.value).commit()
-    val intent = Intent("ACTION_BAR_SCANCFG")
-
-    intent.putExtra("EXTRA_SCAN_POWER", enabler.ordinal)
-    context.sendBroadcast(intent)
+    getPreferences().edit().putString("scannerState", enabler.value).apply()
+    configureScanner(ScannerConfigKey.SCAN_POWER, enabler.ordinal)
   }
 
   private fun registerReceiver() {
@@ -112,7 +109,59 @@ class NativeBarcodeScannerModule : Module() {
   }
 
   private fun unregisterReceiver() {
-    context.unregisterReceiver(dataReceiver);
+    context.unregisterReceiver(dataReceiver)
   }
 
+  private fun isScannerAvailable() : Boolean {
+    return android.os.Build.BRAND.lowercase() == "newland"
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: String) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: Int) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: Long) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: Short) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: Byte) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: Float) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
+
+  private fun configureScanner(key: ScannerConfigKey, value: Double) {
+    val intent = Intent("ACTION_BAR_SCANCFG")
+
+    intent.putExtra(key.value, value)
+    context.sendBroadcast(intent)
+  }
 }
