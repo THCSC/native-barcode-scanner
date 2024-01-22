@@ -58,6 +58,10 @@ export function setScannerConfig(config: ScannerConfig) {
   }
 }
 
+export function isScannerAvailable(): boolean {
+  return NativeBarcodeScannerModule.scannerAvailable();
+}
+
 export function modelNumber(): string {
   return NativeBarcodeScannerModule.modelNumber();
 }
