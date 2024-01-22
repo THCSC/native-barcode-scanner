@@ -1,6 +1,11 @@
 # native-barcode-scanner
 
-A Native Expo Module for interacting with physical scanner, in react native.
+A Native Expo Module for interacting with a physical scanner, in react native.
+
+Currently supports following manufactures and models:
+
+- Newland
+    - MT9055
 
 # Installation in bare React Native projects
 
