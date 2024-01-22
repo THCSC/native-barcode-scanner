@@ -60,8 +60,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Brand: {NativeBarcodeScanner.brand()}</Text>
-      <Text>Model: {NativeBarcodeScanner.modelNumber()}</Text>
+      <Text>
+        Scanner available: {NativeBarcodeScanner.isScannerAvailable() ? "true" : "false"}
+      </Text>
       <Text>Scanner state: {scannerState}</Text>
       <Text>Barcode data: {barcodeData}</Text>
       <TextInput
