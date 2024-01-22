@@ -1,7 +1,7 @@
 {
-  "name": "native-barcode-scanner",
-  "version": "0.1.0",
-  "description": "Module for interacting with physical scanner.",
+  "name": "physical-barcode-scanner-api",
+  "version": "0.1.1",
+  "description": "Native Expo Module for interacting with a physical scanner, in react native.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -21,13 +21,13 @@
     "native-barcode-scanner",
     "NativeBarcodeScanner"
   ],
-  "repository": "https://github.com/TobiasTheDanish/native-barcode-scanner",
+  "repository": "https://github.com/THCSC/native-barcode-scanner",
   "bugs": {
-    "url": "https://github.com/TobiasTheDanish/native-barcode-scanner/issues"
+    "url": "https://github.com/THCSC/native-barcode-scanner/issues"
   },
-  "author": "TobiasTheDanish <t.hc199811@gmail.com> (https://github.com/TobiasTheDanish)",
+  "author": "THCSC <tobias@skancode.dk> (https://github.com/THCSC)",
   "license": "MIT",
-  "homepage": "https://github.com/TobiasTheDanish/native-barcode-scanner#readme",
+  "homepage": "https://github.com/THCSC/native-barcode-scanner#readme",
   "dependencies": {},
   "devDependencies": {
     "@types/react": "^18.0.25",
